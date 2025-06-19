@@ -5,7 +5,6 @@ import { ShareCareGive } from './pages/ShareCareGive';
 import { SwipeItForward } from './pages/SwipeItForward';
 import { Community } from './pages/Community';
 import { Navigation } from './components/Navigation';
-import { Footer } from './components/Footer';
 import { ScrollToTopOnNavigate } from './components/ScrollToTopOnNavigate';
 
 function App() {
@@ -19,7 +18,6 @@ function App() {
           <Route path="/swipe-it-forward" element={<SwipeItForward />} />
           <Route path="/community/:locationId" element={<Community />} />
         </Routes>
-        <Footer />
       </div>
     </Router>
   );
