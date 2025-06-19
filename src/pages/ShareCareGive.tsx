@@ -1,4 +1,3 @@
-
 import { VideoHero } from '../components/VideoHero';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, CheckCircle, Users, Building, Heart, Zap, Globe, TrendingUp, Star, DollarSign, Shield, Clock } from 'lucide-react';
@@ -10,7 +9,7 @@ import { LocationCard } from '../components/LocationCard';
 import { ContactForm } from '../components/ContactForm';
 import { ChatBot } from '../components/ChatBot';
 import { Button } from '../components/Button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Location } from '../types';
 import { totalFundraisingData } from '../data/fundraising';
 import '../components/VideoContainer.css';
@@ -109,7 +108,7 @@ export function ShareCareGive() {
 
     fetchLocations();
   }, []);
-  
+
   const handleLocationClick = (location: Location) => {
     navigate(`/community/${location.id}`);
   };
@@ -118,7 +117,7 @@ export function ShareCareGive() {
     <div className="min-h-screen bg-gray-50">
       {/* Hero Video Section */}
       <VideoHero pageName="share-care-give" />
-      
+
       {/* Stats Bar */}
       <div className="bg-white border-b border-gray-200 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -137,10 +136,10 @@ export function ShareCareGive() {
           </div>
         </div>
       </div>
-      
+
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        
+
         {/* Hero Copy Section */}
         <div className="text-center mb-16 animate-fadeIn">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-[#00304f] to-[#69932f] bg-clip-text text-transparent leading-tight">
@@ -169,7 +168,7 @@ export function ShareCareGive() {
             </Button>
           </div>
         </div>
-        
+
         {/* Problem Statement */}
         <div className="mb-16 animate-slideUp">
           <div className="bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl p-8 md:p-12 border-l-4 border-red-400">
@@ -200,7 +199,7 @@ export function ShareCareGive() {
             </div>
           </div>
         </div>
-        
+
         {/* Solution Section */}
         <div className="mb-16 animate-slideUp">
           <div className="bg-gradient-to-r from-[#00304f] to-[#69932f] rounded-2xl p-8 md:p-12 text-white">
@@ -220,7 +219,7 @@ export function ShareCareGive() {
             </div>
           </div>
         </div>
-        
+
         {/* Features Grid */}
         <div className="mb-16 animate-slideUp">
           <div className="text-center mb-12">
@@ -229,7 +228,7 @@ export function ShareCareGive() {
               Transform your funding model and focus on what matters most—serving your community.
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
               <div key={index} className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow text-center group">
@@ -242,7 +241,7 @@ export function ShareCareGive() {
             ))}
           </div>
         </div>
-        
+
         {/* Fundraising Meter */}
         <div className="mb-16 animate-fadeIn">
           <div className="text-center mb-8">
@@ -260,14 +259,14 @@ export function ShareCareGive() {
             <p className="text-sm text-gray-500">Last Updated: {totalFundraisingData.lastUpdated}</p>
           </div>
         </div>
-        
+
         {/* Success Stories */}
         <div className="mb-16 animate-slideUp">
           <div className="text-center mb-12">
             <h3 className="text-3xl font-bold text-gray-800 mb-4">Success Stories</h3>
             <p className="text-lg text-gray-600">Real non-profits, real results, real impact</p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-white rounded-xl p-8 shadow-lg">
               <div className="flex items-center mb-4">
@@ -290,7 +289,7 @@ export function ShareCareGive() {
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-white rounded-xl p-8 shadow-lg">
               <div className="flex items-center mb-4">
                 <div className="flex text-yellow-400">
@@ -314,7 +313,7 @@ export function ShareCareGive() {
             </div>
           </div>
         </div>
-        
+
         {/* How It Works Section */}
         <div className="mb-16 animate-slideUp">
           <div className="text-center mb-12">
@@ -327,13 +326,13 @@ export function ShareCareGive() {
             <SequentialSteps steps={howItWorksSteps} theme="blue" />
           </div>
         </div>
-        
+
         {/* Comparison Section */}
         <div className="mb-16 animate-slideUp">
           <div className="text-center mb-12">
             <h3 className="text-3xl font-bold text-gray-800 mb-4">Traditional Fundraising vs. Share Care Give</h3>
           </div>
-          
+
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
             <div className="grid md:grid-cols-2">
               {/* Traditional Fundraising */}
@@ -372,7 +371,7 @@ export function ShareCareGive() {
                   </div>
                 </div>
               </div>
-              
+
               {/* Share Care Give */}
               <div className="p-8 bg-gradient-to-br from-[#00304f] to-[#69932f] text-white">
                 <h4 className="text-2xl font-bold mb-6 text-center">Share Care Give</h4>
@@ -412,7 +411,7 @@ export function ShareCareGive() {
             </div>
           </div>
         </div>
-        
+
         {/* Map Section */}
         <div className="mb-16">
           <div className="text-center mb-12">
@@ -421,7 +420,7 @@ export function ShareCareGive() {
               See how Share Care Give is creating sustainable funding ecosystems in communities across America.
             </p>
           </div>
-          
+
           {/* Available Locations */}
           {isLoadingLocations ? (
             <div className="flex justify-center py-8">
@@ -438,7 +437,7 @@ export function ShareCareGive() {
                   />
                 ))}
               </div>
-              
+
               <div className="aspect-w-16 aspect-h-9 bg-white rounded-xl shadow-lg overflow-hidden">
                 <USAMap 
                   locations={locations}
@@ -448,7 +447,7 @@ export function ShareCareGive() {
             </>
           )}
         </div>
-        
+
         {/* Final CTA Section */}
         <div className="relative bg-gradient-to-r from-[#00304f] via-[#004066] to-[#69932f] rounded-2xl p-12 text-white text-center mb-16 overflow-hidden animate-fadeIn">
           <div className="absolute inset-0 bg-black/20"></div>
@@ -479,13 +478,13 @@ export function ShareCareGive() {
             <p className="text-sm opacity-75">✓ No upfront costs  ✓ No long-term contracts  ✓ Start receiving funding in 30 days</p>
           </div>
         </div>
-        
+
         {/* Contact Form Section */}
         <div className="mb-16">
           <ContactForm />
         </div>
       </div>
-      
+
       {/* Application Form Modal */}
       {showApplicationForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
@@ -527,13 +526,13 @@ export function ShareCareGive() {
           </div>
         </div>
       )}
-      
+
       {/* ChatBot */}
       <ChatBot />
-      
+
       {/* Footer */}
       <Footer />
-      
+
       {/* Script for form embed */}
       <script src="https://link.msgsndr.com/js/form_embed.js"></script>
     </div>
