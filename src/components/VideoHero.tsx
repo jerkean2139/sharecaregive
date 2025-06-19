@@ -1,8 +1,6 @@
-import { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import '../styles/animations.css';
 import '../styles/video-hero.css';
-
-import React, { useRef, useState, useEffect } from 'react';
 
 interface VideoHeroProps {
   pageName?: 'share-care-give' | 'swipe-it-forward';
