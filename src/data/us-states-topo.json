@@ -1,0 +1,21 @@
+{
+  "type": "Topology",
+  "objects": {
+    "states": {
+      "type": "GeometryCollection",
+      "geometries": [
+        {
+          "type": "MultiPolygon",
+          "arcs": [[[0,1,2]]],
+          "properties": {"name": "Alabama"}
+        },
+        {
+          "type": "MultiPolygon",
+          "arcs": [[[3,4,5]]],
+          "properties": {"name": "Texas"}
+        }
+      ]
+    }
+  },
+  "arcs": []
+}

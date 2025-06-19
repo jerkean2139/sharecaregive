@@ -1,0 +1,41 @@
+.carousel-container {
+  display: flex;
+  transition: transform 500ms ease-in-out;
+}
+
+/* Handle transform based on data-position attribute */
+.carousel-container[data-position="0"] { transform: translateX(0%); }
+.carousel-container[data-position="1"] { transform: translateX(-100%); }
+.carousel-container[data-position="2"] { transform: translateX(-200%); }
+.carousel-container[data-position="3"] { transform: translateX(-300%); }
+.carousel-container[data-position="4"] { transform: translateX(-400%); }
+.carousel-container[data-position="5"] { transform: translateX(-500%); }
+.carousel-container[data-position="6"] { transform: translateX(-600%); }
+.carousel-container[data-position="7"] { transform: translateX(-700%); }
+.carousel-container[data-position="8"] { transform: translateX(-800%); }
+.carousel-container[data-position="9"] { transform: translateX(-900%); }
+
+.carousel-slide {
+  width: 100%;
+  flex-shrink: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .carousel-navigation {
+    display: none;
+  }
+  
+  .carousel-slide {
+    padding: 0 0.5rem;
+  }
+}
+
+/* Ensure touch-friendly targets on mobile */
+@media (max-width: 768px) {
+  .carousel-pagination button {
+    width: 12px;
+    height: 12px;
+    margin: 0 4px;
+  }
+}
