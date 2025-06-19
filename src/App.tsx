@@ -1,32 +1,27 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { Navigation } from './components/Navigation';
-import { SwipeItForward } from './pages/SwipeItForward';
+
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ShareCareGive } from './pages/ShareCareGive';
+import { SwipeItForward } from './pages/SwipeItForward';
 import { Community } from './pages/Community';
-import { ChatBot } from './components/ChatBot';
-import { ScrollToTop } from './components/ScrollToTop';
+import { Navigation } from './components/Navigation';
+import { Footer } from './components/Footer';
 import { ScrollToTopOnNavigate } from './components/ScrollToTopOnNavigate';
-import './styles/variables.css';
-import './styles/animations.css';
 
 function App() {
   return (
-    <BrowserRouter>
-      <ScrollToTopOnNavigate />
-      <div className="min-h-screen bg-white flex flex-col">
+    <Router>
+      <div className="min-h-screen bg-white">
+        <ScrollToTopOnNavigate />
         <Navigation />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/swipe-it-forward" element={<SwipeItForward />} />
-            <Route path="/share-care-give" element={<ShareCareGive />} />
-            <Route path="/community/:id" element={<Community />} />
-            <Route path="/" element={<Navigate to="/swipe-it-forward" replace />} />
-          </Routes>
-        </main>
-        <ChatBot />
-        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<ShareCareGive />} />
+          <Route path="/swipe-it-forward" element={<SwipeItForward />} />
+          <Route path="/community/:locationId" element={<Community />} />
+        </Routes>
+        <Footer />
       </div>
-    </BrowserRouter>
+    </Router>
   );
 }
 
