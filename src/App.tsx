@@ -20,6 +20,7 @@ function App() {
         <Navigation />
         <Routes>
           <Route path="/" element={<ShareCareGive />} />
+          <Route path="/share-care-give" element={<ShareCareGive />} />
           <Route path="/swipe-it-forward" element={<SwipeItForward />} />
           <Route path="/community/:id" element={<Community />} />
         </Routes>
