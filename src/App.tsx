@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ShareCareGive } from './pages/ShareCareGive';
 import { SwipeItForward } from './pages/SwipeItForward';
 import { Community } from './pages/Community';
+import { Admin } from './pages/Admin';
 import { Navigation } from './components/Navigation';
 import { ScrollToTopOnNavigate } from './components/ScrollToTopOnNavigate';
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/share-care-give" element={<ShareCareGive />} />
           <Route path="/swipe-it-forward" element={<SwipeItForward />} />
           <Route path="/community/:id" element={<Community />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </div>
     </Router>

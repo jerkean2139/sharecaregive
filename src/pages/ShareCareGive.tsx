@@ -16,25 +16,7 @@ import { totalFundraisingData } from '../data/fundraising';
 import '../components/VideoContainer.css';
 import '../styles/animations.css';
 
-// Mock data for the map
-const mockLocations: Location[] = [
-  {
-    id: '1',
-    state: 'Arkansas',
-    city: 'Conway',
-    latitude: 35.0887,
-    longitude: -92.4421,
-    nonprofits: []
-  },
-  {
-    id: '2',
-    state: 'Texas',
-    city: 'Amarillo',
-    latitude: 35.2220,
-    longitude: -101.8313,
-    nonprofits: []
-  }
-];
+// Location data will be fetched from API
 
 // Sequential steps data
 const howItWorksSteps = [
@@ -88,6 +70,45 @@ const stats = [
 export function ShareCareGive() {
   const navigate = useNavigate();
   const [showApplicationForm, setShowApplicationForm] = useState(false);
+  const [locations, setLocations] = useState<Location[]>([]);
+  const [isLoadingLocations, setIsLoadingLocations] = useState(true);
+
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const response = await fetch('/api/locations');
+        if (response.ok) {
+          const data = await response.json();
+          setLocations(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch locations:', error);
+        // Fallback to default locations
+        setLocations([
+          {
+            id: '1',
+            state: 'Arkansas',
+            city: 'Conway',
+            latitude: 35.0887,
+            longitude: -92.4421,
+            nonprofits: []
+          },
+          {
+            id: '2',
+            state: 'Texas',
+            city: 'Amarillo',
+            latitude: 35.2220,
+            longitude: -101.8313,
+            nonprofits: []
+          }
+        ]);
+      } finally {
+        setIsLoadingLocations(false);
+      }
+    };
+
+    fetchLocations();
+  }, []);
   
   const handleLocationClick = (location: Location) => {
     navigate(`/community/${location.id}`);
@@ -402,22 +423,30 @@ export function ShareCareGive() {
           </div>
           
           {/* Available Locations */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-            {mockLocations.map((location) => (
-              <LocationCard 
-                key={location.id}
-                location={location}
-                onClick={handleLocationClick}
-              />
-            ))}
-          </div>
-          
-          <div className="aspect-w-16 aspect-h-9 bg-white rounded-xl shadow-lg overflow-hidden">
-            <USAMap 
-              locations={mockLocations}
-              onLocationClick={handleLocationClick}
-            />
-          </div>
+          {isLoadingLocations ? (
+            <div className="flex justify-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#00304f]"></div>
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                {locations.map((location) => (
+                  <LocationCard 
+                    key={location.id}
+                    location={location}
+                    onClick={handleLocationClick}
+                  />
+                ))}
+              </div>
+              
+              <div className="aspect-w-16 aspect-h-9 bg-white rounded-xl shadow-lg overflow-hidden">
+                <USAMap 
+                  locations={locations}
+                  onLocationClick={handleLocationClick}
+                />
+              </div>
+            </>
+          )}
         </div>
         
         {/* Final CTA Section */}
