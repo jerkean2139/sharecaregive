@@ -91,14 +91,16 @@ export const VideoHero: React.FC<VideoHeroProps> = ({ pageName = 'share-care-giv
 
         {/* Video Control - Play Button Only */}
         <button 
-          className="px-4 sm:px-6 py-2 sm:py-3 rounded-full bg-white/20 hover:bg-white/30 transition-colors flex items-center gap-2 group animate-fadeIn hover:scale-105 transform transition-transform duration-300"
+          className="px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300 flex items-center gap-3 group animate-fadeIn hover:scale-105 transform border border-white/30 shadow-lg"
           onClick={scrollToMainVideo}
           aria-label="Watch video"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-play w-5 h-5 sm:w-6 sm:h-6 text-white group-hover:text-[#c9f24d] transition-colors">
-            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-          </svg>
-          <span className="font-medium text-sm sm:text-base">Watch Video</span>
+          <div className="w-8 h-8 rounded-full bg-white/30 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white group-hover:text-[#c9f24d] transition-colors ml-0.5">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+          </div>
+          <span className="font-semibold text-base sm:text-lg">Watch Our Story</span>
         </button>
       </div>
 
