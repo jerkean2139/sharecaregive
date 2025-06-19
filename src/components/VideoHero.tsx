@@ -2,6 +2,8 @@ import { useRef, useEffect, useState } from 'react';
 import '../styles/animations.css';
 import '../styles/video-hero.css';
 
+import React, { useRef, useState, useEffect } from 'react';
+
 interface VideoHeroProps {
   pageName?: 'share-care-give' | 'swipe-it-forward';
 }
@@ -79,6 +81,32 @@ export const VideoHero: React.FC<VideoHeroProps> = ({ pageName = 'share-care-giv
 
       {/* Gradient Overlay */}
       <div className="absolute inset-0 gradient-overlay"></div>
+
+      {/* Content */}
+      <div className="relative z-10 h-full flex items-center justify-center">
+        <div className="text-center text-white px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 drop-shadow-lg animate-fadeIn">
+            {headlines[pageName]}
+          </h1>
+          <p className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 drop-shadow-md animate-slideUp max-w-3xl mx-auto">
+            {subheadlines[pageName]}
+          </p>
+          {pageName === 'swipe-it-forward' && (
+            <button
+              onClick={scrollToMainVideo}
+              className="inline-flex items-center px-6 py-3 border border-white text-lg font-medium rounded-md text-white bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all duration-300 animate-pulse"
+            >
+              Watch How It Works
+              <svg className="ml-2 -mr-1 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};v>
 
       {/* Content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4 sm:px-6 md:px-8 py-6">

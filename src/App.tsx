@@ -9,18 +9,25 @@ import { ScrollToTopOnNavigate } from './components/ScrollToTopOnNavigate';
 
 function App() {
   return (
-    <Router>
+    <Router
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true
+      }}
+    >
       <div className="min-h-screen bg-white">
         <ScrollToTopOnNavigate />
         <Navigation />
         <Routes>
           <Route path="/" element={<ShareCareGive />} />
           <Route path="/swipe-it-forward" element={<SwipeItForward />} />
-          <Route path="/community/:locationId" element={<Community />} />
+          <Route path="/community/:id" element={<Community />} />
         </Routes>
       </div>
     </Router>
   );
 }
+
+export default App;
 
 export default App;

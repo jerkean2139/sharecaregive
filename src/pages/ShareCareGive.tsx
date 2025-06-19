@@ -335,6 +335,8 @@ export function ShareCareGive() {
                 data-layout-iframe-id="inline-yruErwWMWEhWXTaQRz0N"
                 data-form-id="yruErwWMWEhWXTaQRz0N"
                 title="Share Care Give"
+                sandbox="allow-scripts allow-forms allow-same-origin"
+                loading="lazy"
               />
             </div>
           </div>
