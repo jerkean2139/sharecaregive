@@ -1,0 +1,28 @@
+Failed to fetch locations: 
+SyntaxError {}
+
+at t.value (https://31d809ed-90a6-45a1-8278-a56840f76eb0-00-22doricoiqh9h.riker.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:17465)
+at new t (https://31d809ed-90a6-45a1-8278-a56840f76eb0-00-22doricoiqh9h.riker.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:12630)
+at t.value (https://31d809ed-90a6-45a1-8278-a56840f76eb0-00-22doricoiqh9h.riker.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:32766)
+at https://31d809ed-90a6-45a1-8278-a56840f76eb0-00-22doricoiqh9h.riker.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:34400
+Failed to fetch locations: 
+SyntaxError {}
+
+at t.value (https://31d809ed-90a6-45a1-8278-a56840f76eb0-00-22doricoiqh9h.riker.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:17465)
+at new t (https://31d809ed-90a6-45a1-8278-a56840f76eb0-00-22doricoiqh9h.riker.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:12630)
+at t.value (https://31d809ed-90a6-45a1-8278-a56840f76eb0-00-22doricoiqh9h.riker.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:32766)
+at https://31d809ed-90a6-45a1-8278-a56840f76eb0-00-22doricoiqh9h.riker.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:34400
+Failed to fetch locations: 
+SyntaxError {}
+
+at t.value (https://31d809ed-90a6-45a1-8278-a56840f76eb0-00-22doricoiqh9h.riker.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:17465)
+at new t (https://31d809ed-90a6-45a1-8278-a56840f76eb0-00-22doricoiqh9h.riker.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:12630)
+at t.value (https://31d809ed-90a6-45a1-8278-a56840f76eb0-00-22doricoiqh9h.riker.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:32766)
+at https://31d809ed-90a6-45a1-8278-a56840f76eb0-00-22doricoiqh9h.riker.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:34400
+Failed to fetch locations: 
+SyntaxError {}
+
+at t.value (https://31d809ed-90a6-45a1-8278-a56840f76eb0-00-22doricoiqh9h.riker.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:17465)
+at new t (https://31d809ed-90a6-45a1-8278-a56840f76eb0-00-22doricoiqh9h.riker.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:12630)
+at t.value (https://31d809ed-90a6-45a1-8278-a56840f76eb0-00-22doricoiqh9h.riker.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:32766)
+at https://31d809ed-90a6-45a1-8278-a56840f76eb0-00-22doricoiqh9h.riker.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:34400
