@@ -1,14 +1,17 @@
 import React, { useRef, useEffect, useState } from 'react';
 import '../styles/animations.css';
 import '../styles/video-hero.css';
+import { VideoPopup } from './VideoPopup';
 
 interface VideoHeroProps {
   pageName?: 'share-care-give' | 'swipe-it-forward';
+  onBookCall?: () => void;
 }
 
-export const VideoHero: React.FC<VideoHeroProps> = ({ pageName = 'share-care-give' }) => {
+export const VideoHero: React.FC<VideoHeroProps> = ({ pageName = 'share-care-give', onBookCall }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [isVideoPopupOpen, setIsVideoPopupOpen] = useState(false);
 
   const videoSources = {
     'share-care-give': 'https://storage.googleapis.com/msgsndr/8XkoyELbiXSbGW3Km2v9/media/674f2d924c5990381abfa668.mp4',
@@ -50,11 +53,14 @@ export const VideoHero: React.FC<VideoHeroProps> = ({ pageName = 'share-care-giv
     }
   }, []);
 
-  // Scroll to main video section
-  const scrollToMainVideo = () => {
-    const videoSection = document.getElementById('main-video-section');
-    if (videoSection) {
-      videoSection.scrollIntoView({ behavior: 'smooth' });
+  // Open video popup
+  const openVideoPopup = () => {
+    setIsVideoPopupOpen(true);
+  };
+
+  const handleBookCall = () => {
+    if (onBookCall) {
+      onBookCall();
     }
   };
 
@@ -92,7 +98,7 @@ export const VideoHero: React.FC<VideoHeroProps> = ({ pageName = 'share-care-giv
         {/* Video Control - Play Button Only */}
         <button 
           className="px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300 flex items-center gap-3 group animate-fadeIn hover:scale-105 transform border border-white/30 shadow-lg"
-          onClick={scrollToMainVideo}
+          onClick={openVideoPopup}
           aria-label="Watch video"
         >
           <div className="w-8 h-8 rounded-full bg-white/30 flex items-center justify-center">
@@ -111,6 +117,14 @@ export const VideoHero: React.FC<VideoHeroProps> = ({ pageName = 'share-care-giv
           <path d="m19 12-7 7-7-7"></path>
         </svg>
       </div>
+
+      {/* Video Popup */}
+      <VideoPopup
+        isOpen={isVideoPopupOpen}
+        onClose={() => setIsVideoPopupOpen(false)}
+        videoUrl={videoSources[pageName]}
+        onBookCall={handleBookCall}
+      />
     </div>
   );
 };

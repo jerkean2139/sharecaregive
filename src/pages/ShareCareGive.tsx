@@ -71,6 +71,7 @@ export function ShareCareGive() {
   const [showApplicationForm, setShowApplicationForm] = useState(false);
   const [locations, setLocations] = useState<Location[]>([]);
   const [isLoadingLocations, setIsLoadingLocations] = useState(true);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   useEffect(() => {
     const fetchLocations = async () => {
@@ -115,8 +116,11 @@ export function ShareCareGive() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Video Section */}
-      <VideoHero pageName="share-care-give" />
+      {/* Hero Section */}
+      <VideoHero 
+        pageName="share-care-give" 
+        onBookCall={() => setIsCalendarOpen(true)}
+      />
 
       {/* Stats Bar */}
       <div className="bg-white border-b border-gray-200 py-8">

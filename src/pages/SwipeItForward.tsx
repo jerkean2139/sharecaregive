@@ -59,22 +59,25 @@ export function SwipeItForward() {
   const navigate = useNavigate();
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const videoSectionRef = useRef<HTMLDivElement>(null);
-  
+
   const handleLocationClick = (location: Location) => {
     navigate(`/community/${location.id}`);
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Video Section */}
-      <VideoHero pageName="swipe-it-forward" />
-      
+      {/* Hero Section */}
+      <VideoHero 
+        pageName="swipe-it-forward" 
+        onBookCall={() => setIsCalendarOpen(true)}
+      />
+
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 md:py-16">
         <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8 sm:mb-12 bg-gradient-to-r from-[#69932f] to-[#00304f] bg-clip-text text-transparent animate-fadeIn pb-1">
           Strengthening Communities Together
         </h2>
-        
+
         {/* Two Column Section */}
         <div className="grid md:grid-cols-2 gap-8 sm:gap-12 mb-12 sm:mb-16 items-start animate-slideUp">
           {/* Left Column */}
@@ -110,7 +113,7 @@ export function SwipeItForward() {
               </Button>
             </div>
           </div>
-          
+
           {/* Right Column */}
           <div className="space-y-4 bg-gray-50 p-6 sm:p-8 rounded-xl border-2 border-[#00304f] shadow-lg hover-lift">
             <h3 className="text-xl sm:text-2xl font-bold text-[#00304f]">
@@ -144,7 +147,7 @@ export function SwipeItForward() {
             </div>
           </div>
         </div>
-        
+
         {/* Video Section */}
         <div ref={videoSectionRef} id="main-video-section" className="mb-12 sm:mb-16">
           <div className="text-center mb-6">
@@ -162,7 +165,7 @@ export function SwipeItForward() {
             ></iframe>
           </div>
         </div>
-        
+
         {/* How It Works Section */}
         <div className="mb-12 sm:mb-16 animate-slideUp">
           <h2 className="text-2xl sm:text-3xl font-bold text-center text-[#00304f] mb-8">
@@ -172,21 +175,21 @@ export function SwipeItForward() {
             <SequentialSteps steps={howItWorksSteps} theme="green" />
           </div>
         </div>
-        
+
         {/* Testimonials Section */}
         <div className="mb-12 sm:mb-16">
           <LazyLoad>
             <Testimonials testimonials={testimonials} />
           </LazyLoad>
         </div>
-        
+
         {/* FAQ Section */}
         <div className="mb-12 sm:mb-16">
           <LazyLoad>
             <FAQ title="Frequently Asked Questions for Businesses" faqs={businessFAQs} />
           </LazyLoad>
         </div>
-        
+
         {/* Map Section */}
         <div className="mb-12 sm:mb-16">
           <h2 className="text-2xl sm:text-3xl font-bold text-center text-[#00304f] mb-4">
@@ -204,7 +207,7 @@ export function SwipeItForward() {
             </div>
           </LazyLoad>
         </div>
-        
+
         {/* CTA Section */}
         <div className="bg-gradient-to-r from-[#69932f] to-[#00304f] rounded-xl p-8 sm:p-10 text-white text-center animate-fadeIn">
           <h2 className="text-2xl sm:text-3xl font-bold mb-4">Ready to Make a Difference?</h2>
@@ -232,14 +235,14 @@ export function SwipeItForward() {
           </div>
         </div>
       </div>
-      
+
       {/* Calendar Popup */}
       <CalendarPopup 
         isOpen={isCalendarOpen} 
         onClose={() => setIsCalendarOpen(false)} 
         embedCode="<iframe src='https://api.leadconnectorhq.com/widget/booking/QHcZr05tUVGvUwxpjHWJ' style='width: 100%;border:none;overflow: hidden;' scrolling='no' id='QHcZr05tUVGvUwxpjHWJ_1745369752474'></iframe><script src='https://link.msgsndr.com/js/form_embed.js' type='text/javascript'></script>"
       />
-      
+
       {/* Footer */}
       <Footer />
     </div>
