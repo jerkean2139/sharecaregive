@@ -1,8 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Search } from 'lucide-react';
 import type { Location } from '../types';
-import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
-import usStates from 'us-atlas/states-10m.json';
+import { ActivMap } from './ActivMap';
 
 interface USAMapProps {
   locations: Location[];
@@ -167,145 +166,33 @@ export function USAMap({ locations: propsLocations, onLocationClick }: USAMapPro
     }
   };
 
+  // Transform locations for ActivMap
+  const activMapLocations = filteredLocations.map(location => ({
+    id: location.id,
+    title: `${location.city}, ${location.state}`,
+    address: `${location.city}, ${location.state}`,
+    phone: '',
+    url: `#/community/${location.id}`,
+    tags: ['nonprofit'],
+    lat: location.latitude,
+    lng: location.longitude,
+    img: '/activmap.2.1.2/images/thumb.png',
+    icon: '/activmap.2.1.2/images/icons/marker-star.png'
+  }));
+
   return (
     <div className="w-full">
-      {/* Search bar */}
-      <div className="relative mb-4">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <Search size={18} className="text-gray-400" />
-        </div>
-        <input
-          type="text"
-          className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#69932f] focus:border-[#69932f] sm:text-sm"
-          placeholder="Search locations..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-      </div>
-      
-      {/* Map container */}
-      <div 
-        className="relative border border-gray-200 rounded-lg overflow-hidden bg-gray-50"
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-      >
-        <ComposableMap
-          projection="geoAlbersUsa"
-          projectionConfig={{
-            scale: 1000
-          }}
-          className="w-full h-[400px] md:h-[500px]"
-        >
-          <Geographies geography={usStates}>
-            {({ geographies }: { geographies: any[] }) => (
-              <>
-                {geographies.map((geo: any) => {
-                  const stateName = geo.properties.name;
-                  const stateCode = getStateCodeByName(stateName);
-                  const isActive = programStates.includes(stateName);
-                  
-                  return (
-                    <Geography
-                      key={geo.rsmKey}
-                      geography={geo}
-                      onClick={() => stateCode && handleStateClick(stateCode)}
-                      onMouseEnter={() => {
-                        setHoveredState(stateName);
-                      }}
-                      onMouseLeave={() => {
-                        setHoveredState(null);
-                      }}
-                      style={{
-                        default: {
-                          fill: generateStateColor(stateName),
-                          stroke: "#FFFFFF",
-                          strokeWidth: 0.5,
-                          outline: "none",
-                        },
-                        hover: {
-                          fill: isActive ? "#b3d9ff" : "#F5F5F5",
-                          stroke: "#FFFFFF",
-                          strokeWidth: 1,
-                          outline: "none",
-                          cursor: "pointer"
-                        },
-                        pressed: {
-                          fill: isActive ? "#80bfff" : "#E0E0E0",
-                          stroke: "#FFFFFF",
-                          strokeWidth: 1,
-                          outline: "none",
-                        }
-                      }}
-                    />
-                  );
-                })}
-              </>
-            )}
-          </Geographies>
-          
-          {/* Location markers */}
-          {locations.map((loc) => (
-            <Marker 
-              key={loc.name} 
-              coordinates={loc.coordinates}
-              onClick={() => handleMarkerClick(loc)}
-              onMouseEnter={() => setHoveredLocation(loc.name)}
-              onMouseLeave={() => setHoveredLocation(null)}
-            >
-              <g>
-                {/* Ping animation when hovered */}
-                {hoveredLocation === loc.name && (
-                  <circle
-                    r={10}
-                    fill="rgba(215, 42, 26, 0.3)"
-                    stroke="none"
-                    className="animate-ping"
-                  />
-                )}
-                
-                {/* Main marker circle */}
-                <circle
-                  r={6}
-                  fill={hoveredLocation === loc.name ? '#d72a1a' : '#00304f'}
-                  stroke="#fff"
-                  strokeWidth={2}
-                  className="cursor-pointer shadow-lg transition-all duration-300"
-                  style={{
-                    filter: hoveredLocation === loc.name ? 'drop-shadow(0 0 4px rgba(215, 42, 26, 0.7))' : 'none',
-                    transform: clickedLocation === loc.name ? 'scale(0.9)' : 'scale(1)'
-                  }}
-                />
-                
-                {/* Location name label */}
-                <text
-                  textAnchor="middle"
-                  y={-15}
-                  className={`
-                    fill-[#00304f] text-sm font-semibold pointer-events-none 
-                    transition-all duration-300
-                    ${hoveredLocation === loc.name ? 'opacity-100' : 'opacity-0'}
-                  `}
-                  style={{
-                    textShadow: '0px 0px 2px white, 0px 0px 4px white'
-                  }}
-                >
-                  {loc.name}
-                </text>
-              </g>
-            </Marker>
-          ))}
-        </ComposableMap>
-        
-        {/* State name tooltip */}
-        {hoveredState && tooltipPosition && (
-          <div 
-            className="absolute bg-black/70 text-white text-xs px-2 py-1 rounded pointer-events-none whitespace-nowrap"
-            style={{ left: tooltipPosition.x, top: tooltipPosition.y }}
-          >
-            {hoveredState}
-          </div>
-        )}
-      </div>
+      <ActivMap 
+        locations={activMapLocations}
+        onLocationClick={(location) => {
+          const originalLocation = propsLocations.find(loc => loc.id === location.id);
+          if (originalLocation) {
+            onLocationClick(originalLocation);
+          }
+        }}
+      /></div>
+  );
+}
       
       {/* Location list under map */}
       {filteredLocations.length > 0 && (
