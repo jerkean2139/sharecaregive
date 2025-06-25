@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { Search } from 'lucide-react';
 import type { Location } from '../types';
@@ -190,9 +191,7 @@ export function USAMap({ locations: propsLocations, onLocationClick }: USAMapPro
             onLocationClick(originalLocation);
           }
         }}
-      /></div>
-  );
-}
+      />
       
       {/* Location list under map */}
       {filteredLocations.length > 0 && (
