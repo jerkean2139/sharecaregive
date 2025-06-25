@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 
 interface ActivMapLocation {
@@ -31,18 +30,20 @@ export function ActivMap({ locations, onLocationClick }: ActivMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Load Google Maps API
     const loadGoogleMaps = () => {
       if (window.google && window.google.maps) {
         initializeMap();
         return;
       }
 
+      const apiKey = process.env.GOOGLE_MAPS_API_KEY || 'AIzaSyBhZn-Oqs8-O9UXgvOakmWrq7jiJkHceKE';
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places`;
+      script.src = `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&language=en&key=${apiKey}`;
       script.async = true;
       script.defer = true;
-      script.onload = initializeMap;
+      script.onload = () => {
+        loadJQuery();
+      };
       document.head.appendChild(script);
     };
 
@@ -156,7 +157,7 @@ export function ActivMap({ locations, onLocationClick }: ActivMapProps) {
             placeholder="Search locations..."
           />
         </div>
-        
+
         {/* Filter checkboxes */}
         <div id="activmap-filters" className="grid grid-cols-2 md:grid-cols-4 gap-2">
           <div className="marker-selector">
@@ -189,7 +190,7 @@ export function ActivMap({ locations, onLocationClick }: ActivMapProps) {
       {/* Map Canvas */}
       <div className="relative">
         <div id="activmap-canvas" ref={mapRef} className="w-full h-96 md:h-[500px] rounded-lg"></div>
-        
+
         {/* Results panel */}
         <div id="activmap-places" className="mt-4 bg-white rounded-lg shadow-lg max-h-60 overflow-y-auto">
           <div id="activmap-results-num" className="p-4 font-bold text-[#00304f]"></div>
