@@ -36,9 +36,14 @@ export function ActivMap({ locations, onLocationClick }: ActivMapProps) {
         return;
       }
 
-      const apiKey = process.env.GOOGLE_MAPS_API_KEY || 'AIzaSyBhZn-Oqs8-O9UXgvOakmWrq7jiJkHceKE';
+      // Check if script already exists
+      if (document.querySelector('script[src*="maps.googleapis.com"]')) {
+        return;
+      }
+
+      const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyBhZn-Oqs8-O9UXgvOakmWrq7jiJkHceKE';
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&language=en&key=${apiKey}`;
+      script.src = `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&language=en&key=${apiKey}&loading=async`;
       script.async = true;
       script.defer = true;
       script.onload = () => {
