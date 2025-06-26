@@ -47,23 +47,32 @@ export function ActivMap({ locations, onLocationClick }: ActivMapProps) {
       document.head.appendChild(script);
     };
 
-    // Load jQuery if not already loaded
     const loadJQuery = () => {
       if (window.$) {
-        loadGoogleMaps();
+        loadMarkerClusterer();
         return;
       }
 
-      const script = document.createElement('script');
-      script.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
-      script.onload = () => {
-        // Load ActivMap plugin
-        const activMapScript = document.createElement('script');
-        activMapScript.src = '/activmap.2.1.2/jquery-activmap/js/jquery-activmap.min.js';
-        activMapScript.onload = loadGoogleMaps;
-        document.head.appendChild(activMapScript);
+      const jqueryScript = document.createElement('script');
+      jqueryScript.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
+      jqueryScript.onload = loadMarkerClusterer;
+      document.head.appendChild(jqueryScript);
+    };
+
+    const loadMarkerClusterer = () => {
+      if (window.MarkerClusterer) {
+        initializeMap();
+        return;
+      }
+
+      const clustererScript = document.createElement('script');
+      clustererScript.src = '/activmap.2.1.2/jquery-activmap/js/markercluster.min.js';
+      clustererScript.onload = initializeMap;
+      clustererScript.onerror = () => {
+        console.warn('MarkerClusterer not loaded, proceeding without clustering');
+        initializeMap();
       };
-      document.head.appendChild(script);
+      document.head.appendChild(clustererScript);
     };
 
     const initializeMap = () => {

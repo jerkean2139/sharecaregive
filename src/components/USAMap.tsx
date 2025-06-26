@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { Search } from 'lucide-react';
 import type { Location } from '../types';
@@ -74,12 +73,12 @@ const generateStateColor = (stateName: string) => {
   // Create consistent hue from state name hash
   const hash = stateName.split('').reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
   const hue = hash % 360;
-  
+
   // Use a more consistent color scheme for program states
   if (programStates.includes(stateName)) {
     return '#e6f2ff'; // Light blue for program states
   }
-  
+
   return `hsl(${hue}, 70%, 85%)`; // Light pastel colors for other states
 };
 
@@ -98,6 +97,34 @@ const locations = [
   }
 ]
 
+// ErrorBoundary component to catch errors during rendering
+class ErrorBoundary extends React.Component {
+  constructor(props: any) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    // You can also log the error to an error reporting service
+    console.error("Caught error in ErrorBoundary: ", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return <h1 className="text-red-500">Something went wrong.</h1>;
+    }
+
+    return this.props.children; 
+  }
+}
+
+
 export function USAMap({ locations: propsLocations, onLocationClick }: USAMapProps) {
   const [hoveredState, setHoveredState] = useState<string | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState<{ x: number; y: number } | null>(null);
@@ -105,36 +132,36 @@ export function USAMap({ locations: propsLocations, onLocationClick }: USAMapPro
   const [searchQuery, setSearchQuery] = useState('');
   const [hoveredLocation, setHoveredLocation] = useState<string | null>(null);
   const [clickedLocation, setClickedLocation] = useState<string | null>(null);
-  
+
   // Filter locations based on search query
   const filteredLocations = useMemo(() => {
     if (!searchQuery) return propsLocations;
-    
+
     const query = searchQuery.toLowerCase();
     return propsLocations.filter(location => 
       location.city.toLowerCase().includes(query) || 
       location.state.toLowerCase().includes(query)
     );
   }, [propsLocations, searchQuery]);
-  
+
   const handleStateClick = (stateCode: string) => {
     // Toggle selected state
     if (selectedState === stateCode) {
       setSelectedState(null);
     } else {
       setSelectedState(stateCode);
-      
+
       // Filter locations by the selected state
       const stateName = states[stateCode as keyof typeof states].name;
       const stateLocations = propsLocations.filter(loc => loc.state === stateName);
-      
+
       if (stateLocations.length === 1) {
         // If only one location in this state, navigate directly to it
         onLocationClick(stateLocations[0]);
       }
     }
   };
-  
+
   const handleMouseMove = (e: React.MouseEvent) => {
     if (hoveredState) {
       setTooltipPosition({
@@ -143,22 +170,22 @@ export function USAMap({ locations: propsLocations, onLocationClick }: USAMapPro
       });
     }
   };
-  
+
   const handleMouseLeave = () => {
     setHoveredState(null);
     setTooltipPosition(null);
   };
-  
+
   const handleMarkerClick = (location: typeof locations[0]) => {
     // Find the corresponding location in our data
     const matchingLocation = propsLocations.find(
       loc => loc.city === location.name.split(',')[0] && 
              loc.state === location.state
     );
-    
+
     if (matchingLocation) {
       setClickedLocation(location.name);
-      
+
       // Simulate click animation
       setTimeout(() => {
         setClickedLocation(null);
@@ -183,16 +210,18 @@ export function USAMap({ locations: propsLocations, onLocationClick }: USAMapPro
 
   return (
     <div className="w-full">
-      <ActivMap 
-        locations={activMapLocations}
-        onLocationClick={(location) => {
-          const originalLocation = propsLocations.find(loc => loc.id === location.id);
-          if (originalLocation) {
-            onLocationClick(originalLocation);
-          }
-        }}
-      />
-      
+      <ErrorBoundary>
+        <ActivMap 
+          locations={activMapLocations}
+          onLocationClick={(location) => {
+            const originalLocation = propsLocations.find(loc => loc.id === location.id);
+            if (originalLocation) {
+              onLocationClick(originalLocation);
+            }
+          }}
+        />
+      </ErrorBoundary>
+
       {/* Location list under map */}
       {filteredLocations.length > 0 && (
         <div className="mt-4 bg-gray-50 rounded-lg p-4 border border-gray-200">
@@ -203,7 +232,7 @@ export function USAMap({ locations: propsLocations, onLocationClick }: USAMapPro
               const isHighlighted = 
                 (location.city === 'Conway' && location.state === 'Arkansas') || 
                 (location.city === 'Amarillo' && location.state === 'Texas');
-              
+
               return (
                 <div 
                   key={location.id}
