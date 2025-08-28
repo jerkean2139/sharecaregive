@@ -73,18 +73,34 @@ export function ActivMap({ locations, onLocationClick }: ActivMapProps) {
 
     const loadMarkerClusterer = () => {
       if (window.MarkerClusterer) {
-        initializeMap();
+        loadActivMapPlugin();
         return;
       }
 
       const clustererScript = document.createElement('script');
       clustererScript.src = '/activmap.2.1.2/jquery-activmap/js/markercluster.min.js';
-      clustererScript.onload = initializeMap;
+      clustererScript.onload = loadActivMapPlugin;
       clustererScript.onerror = () => {
         console.warn('MarkerClusterer not loaded, proceeding without clustering');
-        initializeMap();
+        loadActivMapPlugin();
       };
       document.head.appendChild(clustererScript);
+    };
+
+    const loadActivMapPlugin = () => {
+      // Check if ActivMap plugin is already loaded
+      if (window.$ && window.$.fn.activmap) {
+        initializeMap();
+        return;
+      }
+
+      const activmapScript = document.createElement('script');
+      activmapScript.src = '/activmap.2.1.2/jquery-activmap/js/jquery-activmap.min.js';
+      activmapScript.onload = initializeMap;
+      activmapScript.onerror = () => {
+        console.error('ActivMap plugin failed to load');
+      };
+      document.head.appendChild(activmapScript);
     };
 
     const initializeMap = () => {
