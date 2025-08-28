@@ -104,7 +104,7 @@ export function ActivMap({ locations, onLocationClick }: ActivMapProps) {
           check: () => window.$
         },
         {
-          src: `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&language=en&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyBhZn-Oqs8-O9UXgvOakmWrq7jiJkHceKE'}`,
+          src: `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&language=en&key=${process.env.GOOGLE_MAPS_API_KEY || 'AIzaSyBhZn-Oqs8-O9UXgvOakmWrq7jiJkHceKE'}`,
           check: () => window.google && window.google.maps
         },
         {

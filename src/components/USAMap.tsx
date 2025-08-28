@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Search } from 'lucide-react';
 import type { Location } from '../types';
 import { ActivMap } from './ActivMap';
+import { SimpleMap } from './SimpleMap';
 
 interface USAMapProps {
   locations: Location[];
@@ -112,12 +113,16 @@ class ErrorBoundary extends React.Component {
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     // You can also log the error to an error reporting service
     console.error("Caught error in ErrorBoundary: ", error, errorInfo);
+    // Switch to simple map
+    if (this.props.onError) {
+      this.props.onError();
+    }
   }
 
   render() {
     if (this.state.hasError) {
-      // You can render any custom fallback UI
-      return <h1 className="text-red-500">Something went wrong.</h1>;
+      // Return null to let parent handle fallback
+      return null;
     }
 
     return this.props.children; 
@@ -134,6 +139,7 @@ export function USAMap({ locations: propsLocations, onLocationClick }: USAMapPro
   const [clickedLocation, setClickedLocation] = useState<string | null>(null);
   const [loading, setLoading] = useState(true); // State for loading indicator
   const [error, setError] = useState<string | null>(null); // State for error messages
+  const [useSimpleMap, setUseSimpleMap] = useState(false); // Fallback to simple map
 
   // Filter locations based on search query
   const filteredLocations = useMemo(() => {
@@ -210,61 +216,8 @@ export function USAMap({ locations: propsLocations, onLocationClick }: USAMapPro
     icon: '/activmap.2.1.2/images/icons/marker-star.png'
   }));
 
-  // Use local sample data instead of API fetch
+  // Remove this effect since we don't need to set locations anymore
   React.useEffect(() => {
-    // Use local sample data for now since API returns HTML
-    const sampleLocations = [
-      {
-        id: 'ark-1',
-        title: 'Little Rock Food Bank',
-        address: '4301 W 65th St, Little Rock, AR 72209',
-        phone: '(501) 565-8121',
-        url: 'https://www.arkansasfoodbank.org',
-        tags: ['nonprofit', 'food'],
-        lat: 34.6857,
-        lng: -92.3426,
-        img: '/activmap.2.1.2/images/thumb.png',
-        icon: '/activmap.2.1.2/images/icons/marker-heart.png'
-      },
-      {
-        id: 'ark-2',
-        title: 'Arkansas Community Foundation',
-        address: '1400 W Markham St, Little Rock, AR 72201',
-        phone: '(501) 372-1116',
-        url: 'https://www.arcf.org',
-        tags: ['nonprofit', 'community'],
-        lat: 34.7465,
-        lng: -92.2896,
-        img: '/activmap.2.1.2/images/thumb.png',
-        icon: '/activmap.2.1.2/images/icons/marker-star.png'
-      },
-      {
-        id: 'tx-1',
-        title: 'Houston Food Bank',
-        address: '535 Portwall St, Houston, TX 77029',
-        phone: '(713) 223-3700',
-        url: 'https://www.houstonfoodbank.org',
-        tags: ['nonprofit', 'food'],
-        lat: 29.7372,
-        lng: -95.3103,
-        img: '/activmap.2.1.2/images/thumb.png',
-        icon: '/activmap.2.1.2/images/icons/marker-heart.png'
-      },
-      {
-        id: 'tx-2',
-        title: 'Communities Foundation of Texas',
-        address: '5500 Caruth Haven Ln, Dallas, TX 75225',
-        phone: '(214) 750-4222',
-        url: 'https://www.cftexas.org',
-        tags: ['nonprofit', 'community'],
-        lat: 32.8205,
-        lng: -96.7836,
-        img: '/activmap.2.1.2/images/thumb.png',
-        icon: '/activmap.2.1.2/images/icons/marker-star.png'
-      }
-    ];
-
-    setLocations(sampleLocations);
     setLoading(false);
   }, []);
 
@@ -279,8 +232,8 @@ export function USAMap({ locations: propsLocations, onLocationClick }: USAMapPro
 
   return (
     <div className="w-full">
-      <ErrorBoundary>
-        <ActivMap 
+      {useSimpleMap ? (
+        <SimpleMap 
           locations={activMapLocations}
           onLocationClick={(location) => {
             const originalLocation = propsLocations.find(loc => loc.id === location.id);
@@ -289,7 +242,19 @@ export function USAMap({ locations: propsLocations, onLocationClick }: USAMapPro
             }
           }}
         />
-      </ErrorBoundary>
+      ) : (
+        <ErrorBoundary onError={() => setUseSimpleMap(true)}>
+          <ActivMap 
+            locations={activMapLocations}
+            onLocationClick={(location) => {
+              const originalLocation = propsLocations.find(loc => loc.id === location.id);
+              if (originalLocation) {
+                onLocationClick(originalLocation);
+              }
+            }}
+          />
+        </ErrorBoundary>
+      )}
 
       {/* Location list under map */}
       {filteredLocations.length > 0 && (
