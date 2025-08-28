@@ -22,6 +22,7 @@ declare global {
   interface Window {
     google: any;
     $: any;
+    MarkerClusterer: any;
   }
 }
 
@@ -49,6 +50,9 @@ export function ActivMap({ locations, onLocationClick }: ActivMapProps) {
       script.onload = () => {
         loadJQuery();
       };
+      script.onerror = () => {
+        console.error('Google Maps script failed to load.');
+      };
       document.head.appendChild(script);
     };
 
@@ -61,6 +65,9 @@ export function ActivMap({ locations, onLocationClick }: ActivMapProps) {
       const jqueryScript = document.createElement('script');
       jqueryScript.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
       jqueryScript.onload = loadMarkerClusterer;
+      jqueryScript.onerror = () => {
+        console.error('jQuery script failed to load.');
+      };
       document.head.appendChild(jqueryScript);
     };
 
@@ -149,7 +156,7 @@ export function ActivMap({ locations, onLocationClick }: ActivMapProps) {
     faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
     document.head.appendChild(faLink);
 
-    loadJQuery();
+    loadGoogleMaps();
 
     return () => {
       // Cleanup
