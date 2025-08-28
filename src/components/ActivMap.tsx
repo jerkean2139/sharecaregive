@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from 'react';
 
 interface ActivMapLocation {
@@ -27,88 +28,34 @@ declare global {
 }
 
 export function ActivMap({ locations, onLocationClick }: ActivMapProps) {
-  const mapRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const loadGoogleMaps = () => {
-      if (window.google && window.google.maps) {
-        initializeMap();
+    // Load CSS first
+    const cssLink = document.createElement('link');
+    cssLink.rel = 'stylesheet';
+    cssLink.href = '/activmap.2.1.2/jquery-activmap/css/skin-compact/activmap-compact.css';
+    if (!document.querySelector(`link[href="${cssLink.href}"]`)) {
+      document.head.appendChild(cssLink);
+    }
+
+    // Load FontAwesome
+    const faLink = document.createElement('link');
+    faLink.rel = 'stylesheet';
+    faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
+    if (!document.querySelector(`link[href="${faLink.href}"]`)) {
+      document.head.appendChild(faLink);
+    }
+
+    const initActivMap = () => {
+      if (!window.$ || !window.google || !window.google.maps) {
+        console.error('Dependencies not loaded');
         return;
       }
-
-      // Check if script already exists
-      if (document.querySelector('script[src*="maps.googleapis.com"]')) {
-        return;
-      }
-
-      const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyBhZn-Oqs8-O9UXgvOakmWrq7jiJkHceKE';
-      const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&language=en&key=${apiKey}&loading=async`;
-      script.async = true;
-      script.defer = true;
-      script.onload = () => {
-        loadJQuery();
-      };
-      script.onerror = () => {
-        console.error('Google Maps script failed to load.');
-      };
-      document.head.appendChild(script);
-    };
-
-    const loadJQuery = () => {
-      if (window.$) {
-        loadMarkerClusterer();
-        return;
-      }
-
-      const jqueryScript = document.createElement('script');
-      jqueryScript.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
-      jqueryScript.onload = loadMarkerClusterer;
-      jqueryScript.onerror = () => {
-        console.error('jQuery script failed to load.');
-      };
-      document.head.appendChild(jqueryScript);
-    };
-
-    const loadMarkerClusterer = () => {
-      if (window.MarkerClusterer) {
-        loadActivMapPlugin();
-        return;
-      }
-
-      const clustererScript = document.createElement('script');
-      clustererScript.src = '/activmap.2.1.2/jquery-activmap/js/markercluster.min.js';
-      clustererScript.onload = loadActivMapPlugin;
-      clustererScript.onerror = () => {
-        console.warn('MarkerClusterer not loaded, proceeding without clustering');
-        loadActivMapPlugin();
-      };
-      document.head.appendChild(clustererScript);
-    };
-
-    const loadActivMapPlugin = () => {
-      // Check if ActivMap plugin is already loaded
-      if (window.$ && window.$.fn.activmap) {
-        initializeMap();
-        return;
-      }
-
-      const activmapScript = document.createElement('script');
-      activmapScript.src = '/activmap.2.1.2/jquery-activmap/js/jquery-activmap.min.js';
-      activmapScript.onload = initializeMap;
-      activmapScript.onerror = () => {
-        console.error('ActivMap plugin failed to load');
-      };
-      document.head.appendChild(activmapScript);
-    };
-
-    const initializeMap = () => {
-      if (!window.$ || !window.google || !mapRef.current) return;
 
       // Transform locations to ActivMap format
       const activMapLocations = locations.map(loc => ({
-        title: `${loc.title}`,
+        title: loc.title,
         address: loc.address,
         phone: loc.phone || '',
         url: loc.url || '#',
@@ -119,15 +66,15 @@ export function ActivMap({ locations, onLocationClick }: ActivMapProps) {
         icon: loc.icon || '/activmap.2.1.2/images/icons/marker-star.png'
       }));
 
-      // Initialize ActivMap
+      // Initialize ActivMap with original plugin
       window.$('#activmap-canvas').activmap({
         places: activMapLocations,
-        lat: 36.0, // Center between Arkansas and Texas
+        lat: 36.0, // Center between Arkansas and Texas  
         lng: -96.0,
         zoom: 6,
         cluster: true,
         mapType: 'roadmap',
-        posPanel: 'right',
+        posPanel: 'left',
         showPanel: true,
         radius: 0,
         unit: 'km',
@@ -135,17 +82,7 @@ export function ActivMap({ locations, onLocationClick }: ActivMapProps) {
         allowMultiSelect: true,
         icon: '/activmap.2.1.2/images/icons/marker.png',
         center_icon: '/activmap.2.1.2/images/icons/marker-center.png',
-        show_center: true,
-        styles: [
-          {
-            featureType: "administrative.country",
-            elementType: "geometry",
-            stylers: [
-              { visibility: "simplified" },
-              { hue: "#69932f" }
-            ]
-          }
-        ]
+        show_center: true
       });
 
       // Handle location clicks
@@ -160,63 +97,109 @@ export function ActivMap({ locations, onLocationClick }: ActivMapProps) {
       }
     };
 
-    // Load CSS
-    const cssLink = document.createElement('link');
-    cssLink.rel = 'stylesheet';
-    cssLink.href = '/activmap.2.1.2/jquery-activmap/css/skin-compact/activmap-compact.css';
-    document.head.appendChild(cssLink);
+    const loadScripts = () => {
+      const scripts = [
+        {
+          src: 'https://code.jquery.com/jquery-3.6.0.min.js',
+          check: () => window.$
+        },
+        {
+          src: `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&language=en&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyBhZn-Oqs8-O9UXgvOakmWrq7jiJkHceKE'}`,
+          check: () => window.google && window.google.maps
+        },
+        {
+          src: '/activmap.2.1.2/jquery-activmap/js/markercluster.min.js',
+          check: () => window.MarkerClusterer
+        },
+        {
+          src: '/activmap.2.1.2/jquery-activmap/js/jquery-activmap.min.js',
+          check: () => window.$ && window.$.fn.activmap
+        }
+      ];
 
-    // Load FontAwesome for icons
-    const faLink = document.createElement('link');
-    faLink.rel = 'stylesheet';
-    faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
-    document.head.appendChild(faLink);
+      let loadedCount = 0;
 
-    loadGoogleMaps();
+      scripts.forEach((scriptConfig, index) => {
+        if (scriptConfig.check()) {
+          loadedCount++;
+          if (loadedCount === scripts.length) {
+            initActivMap();
+          }
+          return;
+        }
+
+        const existingScript = document.querySelector(`script[src="${scriptConfig.src}"]`);
+        if (existingScript) return;
+
+        const script = document.createElement('script');
+        script.src = scriptConfig.src;
+        script.async = true;
+        script.onload = () => {
+          loadedCount++;
+          if (loadedCount === scripts.length) {
+            setTimeout(initActivMap, 100);
+          }
+        };
+        script.onerror = () => {
+          console.error(`Failed to load script: ${scriptConfig.src}`);
+        };
+        document.head.appendChild(script);
+      });
+
+      // Check if all are already loaded
+      if (scripts.every(s => s.check())) {
+        initActivMap();
+      }
+    };
+
+    loadScripts();
 
     return () => {
       // Cleanup
-      if (window.$ && window.$('#activmap-canvas').data('activmap')) {
+      if (window.$ && window.$('#activmap-canvas').length) {
         window.$('#activmap-canvas').empty();
       }
     };
   }, [locations, onLocationClick]);
 
   return (
-    <div ref={containerRef} className="activmap-wrapper">
-      {/* Search and Filters */}
-      <div className="mb-4 p-4 bg-gray-50 rounded-lg">
-        <div className="mb-4">
-          <input
-            type="text"
-            id="activmap-location"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#69932f]"
-            placeholder="Search locations..."
+    <div ref={containerRef} id="activmap-wrapper">
+      {/* Search and Filters Panel */}
+      <div id="activmap-ui-wrapper">
+        <div id="activmap-search">
+          <input 
+            id="activmap-location" 
+            type="text" 
+            placeholder="Search location..." 
           />
+          <a className="activmap-action" id="activmap-geolocate" href="#" title="Geolocate">
+            <i className="fa fa-crosshairs"></i>
+          </a>
+          <a className="activmap-action" id="activmap-reset" href="#" title="Reset">
+            <i className="fa fa-ban"></i>  
+          </a>
+          <a className="activmap-action" id="activmap-target" href="#" title="Target">
+            <i className="fa fa-bullseye"></i>
+          </a>
         </div>
 
-        {/* Filter checkboxes */}
-        <div id="activmap-filters" className="grid grid-cols-2 md:grid-cols-4 gap-2">
+        <div id="activmap-filters">
           <div className="marker-selector">
             <input type="checkbox" name="marker_type[]" value="nonprofit" id="nonprofit" />
-            <label htmlFor="nonprofit" className="flex items-center cursor-pointer">
-              <i className="fa fa-heart mr-2 text-[#69932f]"></i>
-              Non-Profits
+            <label htmlFor="nonprofit">
+              <i className="fa fa-heart"></i> Non-Profits
             </label>
           </div>
           <div className="marker-selector">
             <input type="checkbox" name="marker_type[]" value="business" id="business" />
-            <label htmlFor="business" className="flex items-center cursor-pointer">
-              <i className="fa fa-building mr-2 text-[#00304f]"></i>
-              Businesses
+            <label htmlFor="business">
+              <i className="fa fa-building"></i> Businesses
             </label>
           </div>
-        </div>
-
-        {/* Radius selector */}
-        <div className="mt-4">
-          <span className="text-sm font-medium">Radius: </span>
-          <div className="inline-flex gap-2 text-sm">
+          
+          {/* Radius selector */}
+          <div className="radius-selector">
+            <span>Radius: </span>
             <label><input type="radio" name="activmap_radius" value="0" defaultChecked /> All</label>
             <label><input type="radio" name="activmap_radius" value="50" /> 50km</label>
             <label><input type="radio" name="activmap_radius" value="100" /> 100km</label>
@@ -224,14 +207,14 @@ export function ActivMap({ locations, onLocationClick }: ActivMapProps) {
         </div>
       </div>
 
-      {/* Map Canvas */}
-      <div className="relative">
-        <div id="activmap-canvas" ref={mapRef} className="w-full h-96 md:h-[500px] rounded-lg"></div>
+      {/* Results Panel */}
+      <div id="activmap-places">
+        <div id="activmap-results-num"></div>
+      </div>
 
-        {/* Results panel */}
-        <div id="activmap-places" className="mt-4 bg-white rounded-lg shadow-lg max-h-60 overflow-y-auto">
-          <div id="activmap-results-num" className="p-4 font-bold text-[#00304f]"></div>
-        </div>
+      {/* Map Container */}
+      <div id="activmap-container">
+        <div id="activmap-canvas"></div>
       </div>
     </div>
   );
