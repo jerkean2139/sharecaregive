@@ -4,6 +4,17 @@
 
 Share Care Give is a modern web application that creates sustainable funding for non-profits through the "Swipe It Forward" program. The platform connects local businesses with non-profit organizations by redirecting credit card processing fees to support community causes at no additional cost to businesses. The application features an interactive map showing communities where the program is active, fundraising meters tracking progress, and comprehensive information about both the Share Care Give non-profit program and the Swipe It Forward business program.
 
+## Recent Changes (September 12, 2025)
+
+### Major Design and Content Overhaul
+- **Simplified hero messaging** - Reduced copy to one clear value proposition: "Turn payment processing fees into sustainable funding"
+- **Moved interactive map to prominent position** - Map now appears early on the page for immediate visual impact
+- **Streamlined content sections** - Applied "one concept per section" rule throughout
+- **Removed information overload** - Eliminated emojis, walls of text, and redundant explanations
+- **Improved visual hierarchy** - Cleaner layout with better spacing and simpler design elements
+- **Rewrote all copy** - Shorter, punchier, benefit-focused messaging throughout
+- **Replaced jQuery map with Google Maps** - Clean, modern implementation with proper API key management through Replit secrets
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
@@ -24,10 +35,10 @@ Preferred communication style: Simple, everyday language.
 - **Responsive breakpoints** - Mobile-first approach with tablet and desktop optimizations
 
 ### Map Integration
-- **Multiple map solutions** - Supports both Google Maps API and react-simple-maps for geographic visualization
-- **Interactive US map** - Custom SVG-based map showing active communities with click interactions
-- **Location visualization** - Shows Arkansas and Texas as initial pilot communities
-- **Map fallbacks** - Error boundaries and loading states for map components
+- **Google Maps implementation** - Modern, clean Google Maps integration with custom markers and info windows
+- **Interactive markers** - Click-responsive markers with bounce animations and detailed location cards
+- **Location visualization** - Shows Arkansas and Texas as initial pilot communities with expandable details
+- **Proper API key management** - Google Maps API key stored securely in Replit secrets (VITE_GOOGLE_MAPS_API_KEY)
 
 ### Data Architecture
 - **TypeScript interfaces** - Strongly typed data models for Location, NonProfit, Business, and Testimonial entities
