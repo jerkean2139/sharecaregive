@@ -1,7 +1,7 @@
 import { VideoHero } from '../components/VideoHero';
-import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, CheckCircle, Users, Building, Heart, Zap, Globe, TrendingUp, Star, DollarSign, Shield, Clock } from 'lucide-react';
-import { USAMap } from '../components/USAMap';
+import { useNavigate } from 'react-router-dom';
+import { ArrowRight, Building, Heart, Globe, TrendingUp, Star, DollarSign, Shield, Clock, CheckCircle } from 'lucide-react';
+import { ModernGoogleMap } from '../components/ModernGoogleMap';
 import { Footer } from '../components/Footer';
 import { SequentialSteps } from '../components/SequentialSteps';
 import { FundraisingMeter } from '../components/FundraisingMeter';
@@ -138,127 +138,141 @@ export function ShareCareGive() {
         onBookCall={() => setIsCalendarOpen(true)}
       />
 
-      {/* Stats Bar */}
-      <div className="bg-white border-b border-gray-200 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="flex justify-center mb-2">
-                  <div className="w-10 h-10 bg-gradient-to-r from-[#00304f] to-[#69932f] rounded-full flex items-center justify-center text-white">
-                    {stat.icon}
-                  </div>
-                </div>
-                <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
-                <div className="text-sm text-gray-600">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
-        {/* Hero Copy Section */}
+        {/* Simplified Hero Message */}
         <div className="text-center mb-16 animate-fadeIn">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-[#00304f] to-[#69932f] bg-clip-text text-transparent leading-tight">
-            The Future of Non-Profit Funding
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-[#00304f]">
+            Turn payment processing fees into <br/>
+            <span className="bg-gradient-to-r from-[#00304f] to-[#69932f] bg-clip-text text-transparent">sustainable funding</span> for your non-profit
           </h2>
-          <p className="text-xl text-gray-600 mb-8 leading-relaxed max-w-4xl mx-auto">
-            Share Care Give revolutionizes how non-profits receive funding by redirecting credit card processing fees that normally go to banks. Get sustainable, predictable revenue without the constant stress of traditional fundraising.
+          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+            Stop fundraising. Start serving. Get predictable monthly revenue without asking for donations.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button 
               onClick={() => setShowApplicationForm(true)}
               variant="primary" 
-              className="bg-gradient-to-r from-[#00304f] to-[#69932f] text-white px-8 py-4 text-lg"
+              className="bg-gradient-to-r from-[#00304f] to-[#69932f] text-white px-8 py-4 text-lg shadow-lg hover:shadow-xl"
               icon={<ArrowRight className="h-5 w-5" />}
             >
-              Apply for Share Care Give
+              Apply Now - It's Free
             </Button>
-            <Button 
-              as="link" 
-              to="/swipe-it-forward" 
-              variant="outline" 
-              className="border-2 border-[#69932f] text-[#69932f] hover:bg-[#69932f] hover:text-white px-8 py-4 text-lg"
-              icon={<ArrowRight className="h-5 w-5" />}
+            <button
+              onClick={() => navigate('/swipe-it-forward')}
+              className="text-[#69932f] hover:text-[#00304f] font-medium text-lg underline underline-offset-4"
             >
-              See How It Works
-            </Button>
+              Learn how it works →
+            </button>
           </div>
         </div>
 
-        {/* Problem Statement */}
-        <div className="mb-16 animate-slideUp">
-          <div className="bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl p-8 md:p-12 border-l-4 border-red-400">
-            <div className="max-w-4xl mx-auto text-center">
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
-                The Non-Profit Funding Crisis
+        {/* Map Section - Moved Up for Impact */}
+        <div className="mb-20">
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-bold text-gray-800 mb-2">Active Communities</h3>
+            <p className="text-gray-600">Join non-profits already receiving sustainable funding</p>
+          </div>
+          <ModernGoogleMap 
+            locations={locations}
+            onLocationClick={handleLocationClick}
+          />
+        </div>
+
+        {/* The Problem - Simplified */}
+        <div className="mb-16">
+          <div className="max-w-4xl mx-auto">
+            <h3 className="text-2xl font-bold text-center text-gray-800 mb-8">
+              Non-profits spend 40% of their time fundraising
+            </h3>
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Clock className="h-8 w-8 text-red-600" />
+                </div>
+                <h4 className="font-semibold text-gray-800 mb-1">Time Drain</h4>
+                <p className="text-sm text-gray-600">Endless grant applications and events</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <TrendingUp className="h-8 w-8 text-red-600" />
+                </div>
+                <h4 className="font-semibold text-gray-800 mb-1">Unpredictable</h4>
+                <p className="text-sm text-gray-600">Revenue varies month to month</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Heart className="h-8 w-8 text-red-600" />
+                </div>
+                <h4 className="font-semibold text-gray-800 mb-1">Mission Drift</h4>
+                <p className="text-sm text-gray-600">Less focus on actual impact</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* The Solution - Clear and Simple */}
+        <div className="mb-16">
+          <div className="bg-gradient-to-r from-[#00304f] to-[#69932f] rounded-2xl p-8 md:p-10 text-white">
+            <div className="max-w-3xl mx-auto text-center">
+              <h3 className="text-2xl md:text-3xl font-bold mb-4">
+                The Solution: Redirect existing fees
               </h3>
-              <p className="text-lg text-gray-700 mb-6">
-                Traditional fundraising is broken. Non-profits spend 40% of their time raising money instead of serving their communities. Grant writing, donor cultivation, and fundraising events consume valuable resources that should go toward your mission.
+              <p className="text-lg opacity-90 mb-6">
+                Businesses already pay 2-4% in credit card fees to banks.
+                <br />We redirect a portion to your non-profit instead.
               </p>
-              <div className="grid md:grid-cols-3 gap-6 text-center">
-                <div className="bg-white rounded-lg p-4 shadow-sm">
-                  <div className="text-3xl mb-2">😫</div>
-                  <div className="font-semibold text-gray-800">Fundraising Burnout</div>
-                  <div className="text-sm text-gray-600">Constant pressure to raise funds</div>
+              <div className="flex flex-col md:flex-row gap-4 justify-center text-sm">
+                <div className="flex items-center justify-center gap-2">
+                  <CheckCircle className="h-5 w-5" />
+                  <span>No cost to businesses</span>
                 </div>
-                <div className="bg-white rounded-lg p-4 shadow-sm">
-                  <div className="text-3xl mb-2">📉</div>
-                  <div className="font-semibold text-gray-800">Unpredictable Income</div>
-                  <div className="text-sm text-gray-600">Inconsistent cash flow</div>
+                <div className="flex items-center justify-center gap-2">
+                  <CheckCircle className="h-5 w-5" />
+                  <span>No cost to customers</span>
                 </div>
-                <div className="bg-white rounded-lg p-4 shadow-sm">
-                  <div className="text-3xl mb-2">⏰</div>
-                  <div className="font-semibold text-gray-800">Time Wasted</div>
-                  <div className="text-sm text-gray-600">Less time for actual impact</div>
+                <div className="flex items-center justify-center gap-2">
+                  <CheckCircle className="h-5 w-5" />
+                  <span>Predictable monthly revenue</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Solution Section */}
-        <div className="mb-16 animate-slideUp">
-          <div className="bg-gradient-to-r from-[#00304f] to-[#69932f] rounded-2xl p-8 md:p-12 text-white">
-            <div className="max-w-4xl mx-auto text-center">
-              <h3 className="text-3xl md:text-4xl font-bold mb-6">
-                Our Solution: Redirect, Don't Add
-              </h3>
-              <p className="text-xl mb-8 opacity-90">
-                Instead of asking for more money, we redirect funds that businesses are already paying to banks. Every credit card swipe generates fees—now those fees can support your cause instead of Wall Street profits.
-              </p>
-              <div className="bg-white/10 rounded-xl p-6 backdrop-blur-sm">
-                <div className="text-2xl font-bold mb-2">💡 The Big Idea</div>
-                <p className="text-lg">
-                  Businesses pay 2-4% in credit card fees. We help redirect a portion to local non-profits at zero additional cost to the business or consumer.
-                </p>
+        {/* Key Benefits - Simplified */}
+        <div className="mb-16">
+          <h3 className="text-2xl font-bold text-center text-gray-800 mb-10">What you get</h3>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="text-center">
+              <div className="w-14 h-14 bg-gradient-to-r from-[#00304f] to-[#69932f] rounded-full flex items-center justify-center mx-auto mb-3 text-white">
+                <DollarSign className="h-7 w-7" />
               </div>
+              <h4 className="font-semibold text-gray-800 mb-1">Predictable Revenue</h4>
+              <p className="text-sm text-gray-600">Monthly funding you can count on</p>
             </div>
-          </div>
-        </div>
-
-        {/* Features Grid */}
-        <div className="mb-16 animate-slideUp">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-gray-800 mb-4">Why Non-Profits Love Share Care Give</h3>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Transform your funding model and focus on what matters most—serving your community.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow text-center group">
-                <div className="w-16 h-16 bg-gradient-to-r from-[#00304f] to-[#69932f] rounded-full flex items-center justify-center mx-auto mb-4 text-white group-hover:scale-110 transition-transform">
-                  {feature.icon}
-                </div>
-                <h4 className="text-xl font-bold text-gray-800 mb-3">{feature.title}</h4>
-                <p className="text-gray-600">{feature.description}</p>
+            <div className="text-center">
+              <div className="w-14 h-14 bg-gradient-to-r from-[#00304f] to-[#69932f] rounded-full flex items-center justify-center mx-auto mb-3 text-white">
+                <Clock className="h-7 w-7" />
               </div>
-            ))}
+              <h4 className="font-semibold text-gray-800 mb-1">Zero Fundraising</h4>
+              <p className="text-sm text-gray-600">Focus 100% on your mission</p>
+            </div>
+            <div className="text-center">
+              <div className="w-14 h-14 bg-gradient-to-r from-[#00304f] to-[#69932f] rounded-full flex items-center justify-center mx-auto mb-3 text-white">
+                <Building className="h-7 w-7" />
+              </div>
+              <h4 className="font-semibold text-gray-800 mb-1">Business Partners</h4>
+              <p className="text-sm text-gray-600">Local businesses support you</p>
+            </div>
+            <div className="text-center">
+              <div className="w-14 h-14 bg-gradient-to-r from-[#00304f] to-[#69932f] rounded-full flex items-center justify-center mx-auto mb-3 text-white">
+                <Shield className="h-7 w-7" />
+              </div>
+              <h4 className="font-semibold text-gray-800 mb-1">Fully Transparent</h4>
+              <p className="text-sm text-gray-600">Track every dollar received</p>
+            </div>
           </div>
         </div>
 
@@ -280,12 +294,9 @@ export function ShareCareGive() {
           </div>
         </div>
 
-        {/* Success Stories */}
-        <div className="mb-16 animate-slideUp">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-gray-800 mb-4">Success Stories</h3>
-            <p className="text-lg text-gray-600">Real non-profits, real results, real impact</p>
-          </div>
+        {/* Success Stories - Simplified */}
+        <div className="mb-16">
+          <h3 className="text-2xl font-bold text-center text-gray-800 mb-8">Real Results</h3>
 
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-white rounded-xl p-8 shadow-lg">
@@ -334,24 +345,15 @@ export function ShareCareGive() {
           </div>
         </div>
 
-        {/* How It Works Section */}
-        <div className="mb-16 animate-slideUp">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-gray-800 mb-4">How to Get Started</h3>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Our simple three-step process gets you from application to funding in as little as 30 days.
-            </p>
-          </div>
-          <div className="relative">
-            <SequentialSteps steps={howItWorksSteps} theme="blue" />
-          </div>
+        {/* How It Works - Simple 3 Steps */}
+        <div className="mb-16">
+          <h3 className="text-2xl font-bold text-center text-gray-800 mb-8">Start in 3 simple steps</h3>
+          <SequentialSteps steps={howItWorksSteps} theme="blue" />
         </div>
 
-        {/* Comparison Section */}
-        <div className="mb-16 animate-slideUp">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-gray-800 mb-4">Traditional Fundraising vs. Share Care Give</h3>
-          </div>
+        {/* Comparison - Simplified */}
+        <div className="mb-16">
+          <h3 className="text-2xl font-bold text-center text-gray-800 mb-8">A better way to fund your mission</h3>
 
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
             <div className="grid md:grid-cols-2">
@@ -432,71 +434,33 @@ export function ShareCareGive() {
           </div>
         </div>
 
-        {/* Map Section */}
+        {/* Stats Bar - Moved down for better flow */}
         <div className="mb-16">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-gray-800 mb-4">Communities We're Transforming</h3>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-8">
-              See how Share Care Give is creating sustainable funding ecosystems in communities across America.
-            </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
+                <div className="text-sm text-gray-600">{stat.label}</div>
+              </div>
+            ))}
           </div>
-
-          {/* Available Locations */}
-          {isLoadingLocations ? (
-            <div className="flex justify-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#00304f]"></div>
-            </div>
-          ) : (
-            <>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-                {locations.map((location) => (
-                  <LocationCard 
-                    key={location.id}
-                    location={location}
-                    onClick={handleLocationClick}
-                  />
-                ))}
-              </div>
-
-              <div className="aspect-w-16 aspect-h-9 bg-white rounded-xl shadow-lg overflow-hidden">
-                <USAMap 
-                  locations={locations}
-                  onLocationClick={handleLocationClick}
-                />
-              </div>
-            </>
-          )}
         </div>
 
-        {/* Final CTA Section */}
-        <div className="relative bg-gradient-to-r from-[#00304f] via-[#004066] to-[#69932f] rounded-2xl p-12 text-white text-center mb-16 overflow-hidden animate-fadeIn">
-          <div className="absolute inset-0 bg-black/20"></div>
-          <div className="relative z-10">
-            <h3 className="text-3xl sm:text-4xl font-bold mb-6">Ready to Transform Your Funding?</h3>
-            <p className="text-xl mb-8 max-w-3xl mx-auto opacity-90">
-              Join hundreds of non-profits who've discovered sustainable funding through Share Care Give. Stop struggling with traditional fundraising and start focusing on your mission.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4 max-w-lg mx-auto mb-6">
-              <Button 
-                onClick={() => setShowApplicationForm(true)}
-                variant="outline" 
-                className="bg-white text-[#00304f] hover:bg-gray-100 border-white px-8 py-4 text-lg font-semibold"
-                icon={<ArrowRight className="h-5 w-5" />}
-              >
-                Apply Now - It's Free
-              </Button>
-              <Button 
-                as="link" 
-                to="/swipe-it-forward" 
-                variant="outline" 
-                className="border-2 border-white text-white hover:bg-white/10 px-8 py-4 text-lg font-semibold"
-                icon={<ArrowRight className="h-5 w-5" />}
-              >
-                See How It Works
-              </Button>
-            </div>
-            <p className="text-sm opacity-75">✓ No upfront costs  ✓ No long-term contracts  ✓ Start receiving funding in 30 days</p>
-          </div>
+        {/* Final CTA - Simplified */}
+        <div className="bg-gradient-to-r from-[#00304f] to-[#69932f] rounded-2xl p-10 text-white text-center mb-16">
+          <h3 className="text-2xl sm:text-3xl font-bold mb-4">Ready to stop fundraising?</h3>
+          <p className="text-lg mb-6 opacity-90 max-w-2xl mx-auto">
+            Join hundreds of non-profits already receiving sustainable monthly funding.
+          </p>
+          <Button 
+            onClick={() => setShowApplicationForm(true)}
+            variant="outline" 
+            className="bg-white text-[#00304f] hover:bg-gray-100 border-white px-8 py-4 text-lg font-semibold shadow-lg"
+            icon={<ArrowRight className="h-5 w-5" />}
+          >
+            Apply Now - It's Free
+          </Button>
+          <p className="text-sm opacity-75 mt-4">✓ No costs  ✓ No contracts  ✓ Start in 30 days</p>
         </div>
 
         {/* Contact Form Section */}
