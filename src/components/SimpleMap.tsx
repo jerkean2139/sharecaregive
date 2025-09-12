@@ -73,7 +73,7 @@ export function SimpleMap({ locations, onLocationClick }: SimpleMapProps) {
       initMap();
     } else {
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY || 'AIzaSyBhZn-Oqs8-O9UXgvOakmWrq7jiJkHceKE'}`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ''}`;
       script.async = true;
       script.onload = initMap;
       script.onerror = () => {
