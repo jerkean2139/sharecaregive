@@ -76,10 +76,26 @@ export function ShareCareGive() {
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const response = await fetch('/api/locations');
+        const response = await fetch(`${window.location.protocol}//${window.location.hostname}:3001/api/locations`);
         if (response.ok) {
           const data = await response.json();
-          setLocations(data);
+          // Transform backend data to match frontend format
+          const transformedLocations = data.map((item: any) => {
+            // Extract city and state from address
+            const addressParts = item.address.split(', ');
+            const city = addressParts[1] || 'Unknown';
+            const state = addressParts[2]?.split(' ')[0] || 'Unknown';
+            
+            return {
+              id: item.id,
+              city: city,
+              state: state === 'AR' ? 'Arkansas' : state === 'TX' ? 'Texas' : state,
+              latitude: item.lat,
+              longitude: item.lng,
+              nonprofits: []
+            };
+          });
+          setLocations(transformedLocations);
         }
       } catch (error) {
         console.error('Failed to fetch locations:', error);
