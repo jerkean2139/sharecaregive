@@ -28,6 +28,30 @@ app.get('/', (req, res) => {
 });
 
 // Sample locations data for Arkansas and Texas
+// Admin login endpoint
+app.post('/api/admin/login', (req, res) => {
+  const { username, password } = req.body;
+  
+  // Check credentials (default: admin / admin123)
+  if (username === 'admin' && password === 'admin123') {
+    // Generate a simple token (in production, use JWT or proper auth)
+    const token = 'admin_token_' + Date.now();
+    res.json({
+      success: true,
+      token: token,
+      user: {
+        username: 'admin',
+        role: 'administrator'
+      }
+    });
+  } else {
+    res.status(401).json({
+      success: false,
+      error: 'Invalid username or password'
+    });
+  }
+});
+
 app.get('/api/locations', (req, res) => {
   const locations = [
     {
