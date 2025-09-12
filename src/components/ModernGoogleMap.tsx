@@ -271,13 +271,14 @@ export function ModernGoogleMap({ locations, onLocationClick }: ModernGoogleMapP
 
   return (
     <div className="w-full">
-      {/* Map Container */}
-      <div className="relative rounded-xl overflow-hidden shadow-xl">
-        <div 
-          ref={mapRef}
-          className="w-full h-[500px] bg-gray-100"
-          style={{ minHeight: '500px' }}
-        />
+      {/* Map Container with Gradient Border */}
+      <div className="relative p-1 bg-gradient-to-r from-[#00304f] via-[#69932f] to-[#00304f] rounded-2xl shadow-2xl">
+        <div className="relative rounded-xl overflow-hidden bg-white">
+          <div 
+            ref={mapRef}
+            className="w-full h-[500px] bg-gray-100"
+            style={{ minHeight: '500px' }}
+          />
         
         {/* Map Controls Overlay */}
         <div className="absolute top-4 left-4 bg-white rounded-lg shadow-lg p-3">
@@ -289,29 +290,30 @@ export function ModernGoogleMap({ locations, onLocationClick }: ModernGoogleMapP
           </div>
         </div>
 
-        {/* Legend */}
-        <div className="absolute bottom-4 right-4 bg-white rounded-lg shadow-lg p-3">
-          <div className="text-xs text-gray-600">
-            <div className="flex items-center gap-2 mb-1">
-              <div className="w-3 h-3 rounded-full bg-[#00304f]"></div>
-              <span>Active Community</span>
-            </div>
-            <div className="text-xs text-gray-500 mt-1">
-              Click markers for details
+          {/* Legend */}
+          <div className="absolute bottom-4 right-4 bg-white rounded-lg shadow-lg p-3">
+            <div className="text-xs text-gray-600">
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-3 h-3 rounded-full bg-[#00304f]"></div>
+                <span>Active Community</span>
+              </div>
+              <div className="text-xs text-gray-500 mt-1">
+                Click markers for details
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Location Cards Below Map */}
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
         {locations.map((location) => (
           <div
             key={location.id}
             className={`
               bg-white rounded-lg shadow-md p-4 cursor-pointer transition-all
               hover:shadow-lg hover:scale-[1.02] border-2
-              ${selectedLocation?.id === location.id ? 'border-[#00304f]' : 'border-transparent'}
+              ${selectedLocation?.id === location.id ? 'border-[#69932f]' : 'border-gray-200'}
             `}
             onClick={() => {
               setSelectedLocation(location);

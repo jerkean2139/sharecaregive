@@ -170,14 +170,29 @@ export function ShareCareGive() {
 
         {/* Map Section - Moved Up for Impact */}
         <div className="mb-20">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-gray-800 mb-2">Active Communities</h3>
-            <p className="text-gray-600">Join non-profits already receiving sustainable funding</p>
+          <div className="text-center mb-10">
+            <h3 className="text-3xl font-bold bg-gradient-to-r from-[#00304f] to-[#69932f] bg-clip-text text-transparent mb-3">Active Communities</h3>
+            <p className="text-gray-600 text-lg">Join non-profits already receiving sustainable funding</p>
+            <div className="flex justify-center mt-4">
+              <div className="h-1 w-24 bg-gradient-to-r from-[#00304f] to-[#69932f] rounded-full"></div>
+            </div>
           </div>
-          <ModernGoogleMap 
-            locations={locations}
-            onLocationClick={handleLocationClick}
-          />
+          
+          {/* Decorative elements around map */}
+          <div className="relative">
+            {/* Top corner accent */}
+            <div className="absolute -top-2 -left-2 w-20 h-20 bg-gradient-to-br from-[#69932f]/20 to-transparent rounded-full blur-xl"></div>
+            <div className="absolute -top-2 -right-2 w-20 h-20 bg-gradient-to-bl from-[#00304f]/20 to-transparent rounded-full blur-xl"></div>
+            
+            <ModernGoogleMap 
+              locations={locations}
+              onLocationClick={handleLocationClick}
+            />
+            
+            {/* Bottom corner accent */}
+            <div className="absolute -bottom-2 -left-2 w-20 h-20 bg-gradient-to-tr from-[#00304f]/20 to-transparent rounded-full blur-xl"></div>
+            <div className="absolute -bottom-2 -right-2 w-20 h-20 bg-gradient-to-tl from-[#69932f]/20 to-transparent rounded-full blur-xl"></div>
+          </div>
         </div>
 
         {/* The Problem - Simplified */}
