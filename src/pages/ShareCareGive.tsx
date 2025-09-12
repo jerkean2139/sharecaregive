@@ -76,8 +76,7 @@ export function ShareCareGive() {
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const apiBase = import.meta.env.VITE_API_BASE_URL || `${window.location.protocol}//${window.location.hostname}:3001`;
-        const response = await fetch(`${apiBase}/api/locations`);
+        const response = await fetch('/api/locations');
         if (response.ok) {
           const data = await response.json();
           // Transform backend data to match frontend format

@@ -18,8 +18,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
     setError('');
 
     try {
-      const apiBase = import.meta.env.VITE_API_BASE_URL || `${window.location.protocol}//${window.location.hostname}:3001`;
-      const response = await fetch(`${apiBase}/api/admin/login`, {
+      const response = await fetch('/api/admin/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
