@@ -50,13 +50,13 @@ args = "Frontend Server"
 name = "Backend Server"
 author = "agent"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd server && node index.js"
-waitForPort = 3001
-
 [workflows.workflow.metadata]
 outputType = "console"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx tsx server/index.ts"
+waitForPort = 3001
 
 [[workflows.workflow]]
 name = "Frontend Server"
@@ -77,6 +77,10 @@ externalPort = 3001
 [[ports]]
 localPort = 5000
 externalPort = 80
+
+[[ports]]
+localPort = 40109
+externalPort = 3000
 
 [agent]
 expertMode = true

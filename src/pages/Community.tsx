@@ -43,9 +43,8 @@ export function Community() {
   useEffect(() => {
     const fetchCommunity = async () => {
       try {
-        // Map URL param to backend ID format
-        const communityId = id === '1' ? 'conway-ar' : id === '2' ? 'amarillo-tx' : id;
-        const response = await fetch(`/api/communities/${communityId}`);
+        // Use the ID directly as it now matches database IDs
+        const response = await fetch(`/api/communities/${id}`);
         if (response.ok) {
           const data = await response.json();
           setCommunity(data);
