@@ -1,7 +1,12 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { storage } from './storage';
 import crypto from 'crypto';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -9,6 +14,9 @@ const port = process.env.PORT || 3001;
 // Enable CORS for frontend requests
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from the React build
+app.use(express.static(path.join(__dirname, '../dist')));
 
 // Communities endpoints
 app.get('/api/communities', async (req, res) => {
@@ -215,6 +223,11 @@ app.get('/health', (req, res) => {
   res.json({ status: 'healthy', timestamp: new Date().toISOString() });
 });
 
+// Serve React app for all other routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+});
+
 app.listen(port, '0.0.0.0', () => {
-  console.log(`Server running at http://0.0.0.0:${port}`);
+  console.log(`Production server running on port ${port}`);
 });
